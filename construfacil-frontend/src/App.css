@@ -1,0 +1,67 @@
+/* --- ESTILO TIPO SOLOTODO --- */
+.tarjeta {
+  background-color: #2a2a2a; /* Fondo oscuro inferior */
+  border-radius: 8px;
+  overflow: hidden; /* Obligatorio para que los bordes redondeados no se rompan */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  cursor: pointer; /* Cambia la flecha por una mano indicando que es clickeable */
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta:hover {
+  transform: translateY(-5px);
+  border: 1px solid #646cff; /* Borde brillante al pasar el mouse */
+}
+
+/* Contenedor blanco para la imagen */
+.tarjeta-imagen {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px; /* Altura fija para que todas las tarjetas sean iguales */
+}
+
+.tarjeta-imagen img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Evita que la imagen se estire feo */
+}
+
+/* Contenedor oscuro para la información */
+.tarjeta-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Empuja el contenido para llenar el espacio */
+}
+
+.badge-tienda {
+  background-color: #4a5568;
+  color: white;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.tarjeta-info h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.05rem;
+  color: #e2e8f0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.precio-destacado {
+  margin-top: auto; /* Empuja el precio siempre al fondo de la tarjeta */
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+}

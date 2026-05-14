@@ -1,0 +1,44 @@
+[
+  {
+    "tienda": "Sodimac",
+    "titulo": "MELON Cemento Melón especial 25 Kg",
+    "precio": 5180,
+    "imagen": "https://media.sodimac.cl/sodimacCL/3267326_01/width=240,height=240,quality=70,format=webp,fit=pad",
+    "link": "https://www.sodimac.cl/sodimac-cl/articulo/110323991/cemento-melon-especial-25-kg/110324015"
+  },
+  {
+    "tienda": "Sodimac",
+    "titulo": "CEMENTO POLPAICO 25 kilos",
+    "precio": 5180,
+    "imagen": "https://media.sodimac.cl/sodimacCL/338845X_001/width=240,height=240,quality=70,format=webp,fit=pad",
+    "link": "https://www.sodimac.cl/sodimac-cl/articulo/110309884/cemento-polpaico-25-kilos/110309919"
+  },
+  {
+    "tienda": "Sodimac",
+    "titulo": "BIO BIO Cementos Cbb 25 Kilos",
+    "precio": 5180,
+    "imagen": "https://media.sodimac.cl/sodimacCL/3316939_001/width=240,height=240,quality=70,format=webp,fit=pad",
+    "link": "https://www.sodimac.cl/sodimac-cl/articulo/110308912/cementos-cbb-25-kilos/110308931"
+  },
+  {
+    "tienda": "Imperial",
+    "titulo": "Bio-Bio Cemento 25kg saco",
+    "precio": 5510,
+    "imagen": "https://www.imperial.cl/ccstore/v1/images/?source=/file/v585220030995507166/products/133831+.jpg&height=300&width=300",
+    "link": "https://www.imperial.cl/aridos-y-aglomerantes/cemento-25kg-saco/product/133831"
+  },
+  {
+    "tienda": "Imperial",
+    "titulo": "Melon Cemento Melon especial saco 25kg",
+    "precio": 5510,
+    "imagen": "https://www.imperial.cl/ccstore/v1/images/?source=/file/v4792548518450436368/products/132429-1.jpg&height=300&width=300",
+    "link": "https://www.imperial.cl/aridos-y-aglomerantes/cemento-melon-especial-saco-25kg/product/132429"
+  },
+  {
+    "tienda": "Imperial",
+    "titulo": "Polpaico Cemento Polpaico saco 25kg",
+    "precio": 5510,
+    "imagen": "https://www.imperial.cl/ccstore/v1/images/?source=/file/v8270503245667801907/products/132647-1.jpg&height=300&width=300",
+    "link": "https://www.imperial.cl/aridos-y-aglomerantes/cemento-polpaico-saco-25kg/product/132647"
+  }
+]
