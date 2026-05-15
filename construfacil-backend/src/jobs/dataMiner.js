@@ -1,12 +1,15 @@
 import { chromium} from "playwright";
 import fs, { link } from "fs"
 import { text } from "stream/consumers";
-
+//Imports tablas 
+import { Sequelize } from "sequelize";
+import { Tienda,Producto,HistorialPrecio } from "../models/models.js";
 //imports de los mineros
 
-import { minarSodimac } from "./scrapers/scraperSodimac.js";
-import { minarEasy } from "./scrapers/scraperEasy.js";
-import { minarImperial } from "./scrapers/scraperImperial.js";
+import { minarSodimac } from "../scrapers/scraperSodimac.js";
+import { minarEasy } from "../scrapers/scraperEasy.js";
+import { minarImperial } from "../scrapers/scraperImperial.js";
+import sequelize from "../config/db.js";
 
 async function iniciarMineria(){
     const busqueda = "cemento 25kg";
@@ -73,30 +76,67 @@ async function iniciarMineria(){
     catalogoFiltrado.sort((a, b) => {
         return a.precio - b.precio;
     });
-
+       if (catalogoFiltrado.length > 0){
         console.log("\n EL MEJOR PRECIO ENCONTRADO:");
     // Imprimimos solo el primer elemento del array (el más barato)
         console.log(`Tienda: ${catalogoFiltrado[0].tienda} | Producto: ${catalogoFiltrado[0].titulo} | Precio: $${catalogoFiltrado[0].precio}`);
 
-        //JSON.stringify convierte la variable a texto en formato JSON
-        //El null 2 es un truco para que el archivo quede ordenado
-        const DatosEnTextoJSON = JSON.stringify(catalogoFiltrado, null, 2);
+        await guardarEnBd(catalogoFiltrado);
 
-        //writeFileSync crea el archivo.le pasamos el nombre y el contenido
-        fs.writeFileSync ("cemento_limpio.json", DatosEnTextoJSON)
+        } else{
+            console.log(`\n No se encontraron productos después del filtro`);
+        }
 
-        console.log("archivo creado con exito!!");
     }catch(error){
-        console.log("Error al intentar guardar el archivo", error.message);
+        console.log("Error general durante la ejecución", error.message);
     }finally{
         //Cleanup el bloque finally se ejecuta siempre que haya error o no arriba.
         //Es el lugar arquitectonicamente correcto para liberar recursos
         console.log("\n cerrando el navegador y liberando recursos...");
         await browser.close();
-
         //opcional pero recomendado en scripts de consola
         process.exit(0);
     }
+}
+
+
+async function guardarEnBd(catalogoFiltrado) {
+    console.log("\n Inicando carga de datos en supabase");
+
+//Sincronizamos por si acaso
+await sequelize.sync({ alter:true});
+
+for (const item of catalogoFiltrado){
+    try{
+        //Buscar o crear la tienda
+        const [tiendaRecord] = await Tienda.findOrCreate({
+            where: {nombre:item.tienda}
+        });
+
+        //buscar o crear el producto
+        //usamos el título como identificador único para esa tienda en especifico
+        const [productoRecord] = await Producto.findOrCreate({
+            where:{
+                titulo: item.titulo,
+                tienda_id: tiendaRecord.id //FK de la tienda
+            },
+            defaults:{
+                imagen: item.imagen,
+                link: item.link
+            }
+        });
+
+        //Importar siempre le precio de hoy en el historial
+        await HistorialPrecio.create({
+            precio: item.precio,
+            producto_id: productoRecord.id //FK del producto
+        });
+
+    }catch(error){
+        console.error(`Error al guardar en DB el producto ${item.titulo}:`, error.message);
+    }
+}
+console.log("Carga de datos completado con éxito.");
 }
 
 iniciarMineria();

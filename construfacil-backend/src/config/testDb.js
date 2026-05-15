@@ -1,7 +1,7 @@
 import sequelize, { probarConexion } from './db.js';
 
 //al importar los modelos sequelize registra sus relaciones
-import { Tienda,Producto,HistorialPrecio } from './models.js';
+import { Tienda,Producto,HistorialPrecio } from '../models/models.js';
 
 async function inicializarBaseDeDatos(){
     await probarConexion();

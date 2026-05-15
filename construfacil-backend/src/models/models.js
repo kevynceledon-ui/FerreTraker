@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "./db.js";
+import sequelize from "../config/db.js";
 
 //Modelo de tienda
 
@@ -17,7 +17,7 @@ export const Producto = sequelize.define("Producto",{
         type:DataTypes.STRING,
         allowNull:false
     },
-    Imagen:{
+    imagen:{
         type: DataTypes.TEXT
     },
     link:{
@@ -29,7 +29,7 @@ export const Producto = sequelize.define("Producto",{
 
 export const HistorialPrecio = sequelize.define("HistorialPrecio",{
     precio:{
-        type:DataTypes.STRING,
+        type:DataTypes.INTEGER,
         allowNull: false
     }
 }, {timestamps: true });
