@@ -26,6 +26,18 @@ export async function minarEasy (browser, terminoBusqueda) {
         
                 const lineas= textoCompleto.split("\n").map (linea=> linea.trim()).filter(linea => linea !== "");
 
+                //nuevo: limpieza de la basura visual del marketing antes de buscar el titulo
+                const lineasLimpias = lineas.filter(linea => {
+                    const min = linea.toLowerCase();
+                    //Excluir calquier línea que contenga palabaras típicas de promociones
+                    return !min.includes("descuento") &&
+                           !min.includes("cyber") &&
+                           !min.includes("cupón") &&
+                           !min.includes("cmr")
+                });
+
+                const textoTitulo = lineasLimpias.slice(0, 2).join(" ");
+
                 const lineaPrecio = lineas.find(linea => linea.startsWith("$"));
 
                 

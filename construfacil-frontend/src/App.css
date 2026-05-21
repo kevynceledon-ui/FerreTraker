@@ -1,67 +1,147 @@
-/* --- ESTILO TIPO SOLOTODO --- */
-.tarjeta {
-  background-color: #2a2a2a; /* Fondo oscuro inferior */
+/* --- App.css --- */
+
+/* 1. EL CONTENEDOR PRINCIPAL (El "Body" de tu app) */
+.app-container {
+  /* Tu paleta Dark Mode: Fondo casi negro para no cansar la vista */
+  background-color: #121212; 
+  /* Texto por defecto en blanco puro */
+  color: #ffffff; 
+  /* min-height: 100vh asegura que el fondo oscuro cubra el 100% de la altura de la pantalla, incluso si hay pocos productos */
+  min-height: 100vh; 
+  /* Espaciado interior para que nada quede pegado a los bordes del monitor */
+  padding: 2rem; 
+  /* Fuente del sistema: carga la fuente nativa del usuario (Windows/Mac/Linux) para mayor velocidad */
+  font-family: system-ui, -apple-system, sans-serif; 
+}
+
+/* 2. CABECERA (Títulos) */
+.header {
+  text-align: center; /* Centramos el texto horizontalmente */
+  margin-bottom: 3rem; /* Separamos el título de la grilla de productos hacia abajo */
+}
+
+.header h1 {
+  color: #FFD700; /* Color dorado para el título principal */
+  font-size: 2.5rem; /* Tamaño grande de letra */
+  margin: 0; /* Quitamos el margen por defecto que los navegadores le ponen a los <h1> */
+}
+
+.header p {
+  color: #888; /* Gris oscuro para el subtítulo */
+  margin-top: 0.5rem; /* Pequeña separación entre el h1 y el p */
+}
+
+/* 3. TEXTO DE CARGA */
+.loading-text {
+  text-align: center;
+  color: #FFD700;
+}
+
+/* 4. LA GRILLA DE PRODUCTOS (Arquitectura responsive) */
+.productos-grid {
+  display: grid; /* Activamos CSS Grid, ideal para catálogos bidimensionales */
+  /* MAGIA RESPONSIVE: 'auto-fill' crea tantas columnas como quepan. 'minmax(300px, 1fr)' 
+     significa: "Las tarjetas no pueden ser más pequeñas de 300px, pero si sobra espacio, 
+     repártelo equitativamente (1fr)". Esto evita usar Media Queries en móviles. */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem; /* Espacio exacto de 2rem entre tarjeta y tarjeta */
+  max-width: 1200px; /* Ancho máximo de la grilla en monitores gigantes */
+  margin: 0 auto; /* 'auto' a los lados centra la grilla perfectamente en la pantalla */
+}
+
+/* 5. TARJETA INDIVIDUAL DE PRODUCTO */
+.producto-card {
+  background-color: #1E1E1E; /* Un gris un poco más claro que el fondo para destacar la tarjeta */
+  border-radius: 12px; /* Bordes redondeados modernos */
+  padding: 1.5rem; /* Espaciado interno de la tarjeta */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Sombra suave para dar efecto 3D de elevación */
+  border: 1px solid #333; /* Borde sutil para delimitar la tarjeta */
+  
+  /* Activamos Flexbox en columna. Esto nos permite que el botón "Comprar" 
+     siempre se empuje hacia abajo, sin importar qué tan largo sea el título. */
+  display: flex; 
+  flex-direction: column; 
+}
+
+/* 6. CONTENEDOR DE LA IMAGEN */
+.imagen-container {
+  background-color: #ffffff; /* Fondo blanco forzado. Si un logo de Sodimac es negro y transparente, en Dark Mode no se vería. */
   border-radius: 8px;
-  overflow: hidden; /* Obligatorio para que los bordes redondeados no se rompan */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s;
-  cursor: pointer; /* Cambia la flecha por una mano indicando que es clickeable */
-  display: flex;
-  flex-direction: column;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
-.tarjeta:hover {
-  transform: translateY(-5px);
-  border: 1px solid #646cff; /* Borde brillante al pasar el mouse */
+.imagen-producto {
+  width: 100%; /* La imagen ocupa todo el ancho de su caja */
+  height: 180px; /* Altura fija para que todas las tarjetas midan lo mismo */
+  /* object-fit: contain asegura que la foto del cemento no se deforme ni se recorte, se ajusta al marco */
+  object-fit: contain; 
 }
 
-/* Contenedor blanco para la imagen */
-.tarjeta-imagen {
-  background-color: #ffffff;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 180px; /* Altura fija para que todas las tarjetas sean iguales */
+/* 7. TEXTOS DE LA TARJETA */
+.producto-titulo {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  /* flex-grow: 1 le dice al título: "Estírate todo lo que puedas hacia abajo". 
+     Esto empuja el precio y el botón hacia el fondo de la tarjeta para que todas queden alineadas. */
+  flex-grow: 1; 
 }
 
-.tarjeta-imagen img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain; /* Evita que la imagen se estire feo */
+.producto-tienda {
+  color: #aaa; /* Gris claro */
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
 }
 
-/* Contenedor oscuro para la información */
-.tarjeta-info {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; /* Empuja el contenido para llenar el espacio */
+.producto-tienda strong {
+  color: #ffffff; /* Resaltamos el nombre "Sodimac" o "Easy" en blanco */
 }
 
-.badge-tienda {
-  background-color: #4a5568;
-  color: white;
-  align-self: flex-start;
-  padding: 4px 10px;
-  border-radius: 4px;
+/* 8. CAJA DE PRECIO DESTACADO */
+.precio-box {
+  background-color: #2A2A2A; /* Gris intermedio para hacer contraste */
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.precio-label {
+  margin: 0;
   font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase; /* Forzamos letras mayúsculas para diseño */
+}
+
+.precio-valor {
+  margin: 0;
+  font-size: 2rem; /* Número de precio gigante */
   font-weight: bold;
-  margin-bottom: 12px;
-  text-transform: uppercase;
+  color: #4CAF50; /* Verde "éxito/dinero" para el precio */
 }
 
-.tarjeta-info h3 {
-  margin: 0 0 15px 0;
-  font-size: 1.05rem;
-  color: #e2e8f0;
-  font-weight: 500;
-  line-height: 1.4;
+/* 9. BOTÓN DE COMPRA */
+.btn-comprar {
+  display: block; /* Transforma el enlace <a> en un bloque que ocupa todo el ancho */
+  text-align: center;
+  padding: 0.8rem;
+  background-color: #FFD700; /* Dorado principal */
+  color: #000; /* Texto negro para contraste */
+  text-decoration: none; /* Le quita el subrayado feo de los enlaces de internet */
+  border-radius: 6px;
+  font-weight: bold;
+  /* transition le da suavidad al cambio de color cuando pasas el mouse por encima */
+  transition: background-color 0.3s ease; 
 }
 
-.precio-destacado {
-  margin-top: auto; /* Empuja el precio siempre al fondo de la tarjeta */
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffffff;
+/* 10. EFECTO HOVER DEL BOTÓN */
+.btn-comprar:hover {
+  /* Cuando el usuario pasa el mouse, el botón se oscurece un poco */
+  background-color: #e6c200; 
+}
+.precio-fecha {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #666; /* Un gris muy oscuro para que no robe la atención del precio */
+  font-style: italic;
 }

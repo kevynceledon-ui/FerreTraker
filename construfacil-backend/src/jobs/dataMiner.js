@@ -37,9 +37,9 @@ async function iniciarMineria(){
     //Tomamos la primera palabra de categoria, para usarla como regla estricta
     const palabraClave = categoria.split(" ")[0].toLowerCase();
 
-        resultadosCategoria = resultadosCategoria.filter((Producto) =>{
-            const tituloMin = Producto.titulo.toLowerCase();
-
+        resultadosCategoria = resultadosCategoria.filter((producto) =>{
+            const tituloMin = producto.titulo.toLowerCase();
+            
             //Regla 1:  debe contener la palabra clave
             const tienePalabraClave = tituloMin.includes(palabraClave);
 
@@ -49,7 +49,7 @@ async function iniciarMineria(){
                                !tituloMin.includes("macetero") &&
                                !tituloMin.includes("pesa")
 
-            //Regla 3 :  el preico debe existir , ser un número valido y mayor a 0
+            //Regla 3 :  el precio debe existir , ser un número valido y mayor a 0
             //Esto evita errores en la base de datos
              const tienePrecioValido = producto.precio !== null &&
                                        producto.precio !== undefined &&

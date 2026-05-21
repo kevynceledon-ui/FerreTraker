@@ -26,15 +26,23 @@ export async function minarImperial (browser, terminoBusqueda){
                 if(!textoCompleto) continue;
                 
                 //Separamos el texto en lineas, quitamos espacios extra y borramos lineas vacias
-                const lineas = textoCompleto.split ("\n").map(linea =>linea.trim())
-                                                         .filter(linea => linea !== "");
+                /* const lineas = textoCompleto.split ("\n").map(linea =>linea.trim())
+                                                         .filter(linea => linea !== ""); */
+                const lineas = textoCompleto.split("\n").map(linea => linea.trim()).filter(linea => linea !== "");                                         
 
-                const lineasLimpias = lineas.filter(linea => linea.toLowerCase()!== "compare");
+                 const lineasLimpias = lineas.filter(linea => {
+                    const min = linea.toLowerCase();
+                    //Excluir calquier línea que contenga palabaras típicas de promociones
+                    return !min.includes("descuento") &&
+                           !min.includes("cyber") &&
+                           !min.includes("cupón") &&
+                           !min.includes("compare")
+                })
 
                 // el titulo casi siempre es la primera linea 
                 // Unimos la línea de la marca (índice 0) con la línea del producto (índice 1)
                 // Esto nos dará un título como "Bio-Bio Cemento 25kg saco"
-                const textoTitulo = `${lineasLimpias[0]} ${lineasLimpias[1]}`;                                 
+                const textoTitulo = lineasLimpias.slice(0, 2).join(" ");                               
 
                 //Buscamos la linea que contenga el precio 
                 //.find()recorrera el array y se detendra en el primero que cumpla la condicion
