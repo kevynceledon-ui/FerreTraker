@@ -1,51 +1,36 @@
-name: FerreTracker Minero Diario
+name: FerreTraker Minero Diario
 
-# 1. ¿CUÁNDO SE EJECUTA ESTO?
 on:
-  schedule:
-    # Formato Cron (Minuto Hora Día Mes DíaSemana)
-    # 0 7 * * * es 07:00 AM UTC, que equivale a las 03:00 AM en Chile.
-    - cron: '0 7 * * *' 
-  # workflow_dispatch hace que aparezca un botón en GitHub para ejecutarlo a mano cuando quieras probarlo.
   workflow_dispatch: 
+  schedule:
+    - cron: '0 7 * * *' 
 
 jobs:
   minar-datos:
-    # 2. ¿DÓNDE SE EJECUTA? En un servidor Ubuntu fresco prestado por GitHub.
     runs-on: ubuntu-latest
     
-    # IMPORTANTE: Como tu proyecto es un monorepo, le decimos a GitHub que 
-    # todos los comandos de terminal se ejecuten dentro de la carpeta backend.
-    defaults:
-      run:
-        working-directory: ./backend
-
     steps:
-      # Paso A: Clonar tu código en este servidor virtual
       - name: Clonar el repositorio
         uses: actions/checkout@v4
 
-      # Paso B: Instalar Node.js
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Paso C: Instalar tus paquetes (Express, Sequelize, Playwright)
-      - name: Instalar dependencias (NPM)
-        run: npm install
+      - name: Instalar dependencias
+        # Buscamos el package.json dentro de cualquier carpeta llamada 'backend'
+        run: |
+          cd $(find . -name "backend" -type d | head -n 1)
+          npm install
 
-      # Paso D: El secreto de Playwright. Necesita descargar Chromium (el motor de Chrome)
-      - name: Instalar navegador Chromium para Playwright
+      - name: Instalar Playwright
         run: npx playwright install chromium --with-deps
 
-      # Paso E: ¡Lanzar tu minero!
-      - name: Ejecutar Extracción y Guardado ETL
+      - name: Ejecutar Extracción
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        # Este comando busca la carpeta backend, entra y ejecuta tu minero
         run: |
-          echo "--- DIAGNÓSTICO DE RUTA ---"
-          pwd
-          ls -R
-          echo "--- FIN DEL DIAGNÓSTICO ---"
-          node $GITHUB_WORKSPACE/backend/src/jobs/dataMiner.js
+          cd $(find . -name "backend" -type d | head -n 1)
+          node src/jobs/dataMiner.js
