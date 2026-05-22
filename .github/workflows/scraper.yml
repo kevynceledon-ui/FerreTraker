@@ -1,0 +1,47 @@
+name: FerreTracker Minero Diario
+
+# 1. ¿CUÁNDO SE EJECUTA ESTO?
+on:
+  schedule:
+    # Formato Cron (Minuto Hora Día Mes DíaSemana)
+    # 0 7 * * * es 07:00 AM UTC, que equivale a las 03:00 AM en Chile.
+    - cron: '0 7 * * *' 
+  # workflow_dispatch hace que aparezca un botón en GitHub para ejecutarlo a mano cuando quieras probarlo.
+  workflow_dispatch: 
+
+jobs:
+  minar-datos:
+    # 2. ¿DÓNDE SE EJECUTA? En un servidor Ubuntu fresco prestado por GitHub.
+    runs-on: ubuntu-latest
+    
+    # IMPORTANTE: Como tu proyecto es un monorepo, le decimos a GitHub que 
+    # todos los comandos de terminal se ejecuten dentro de la carpeta backend.
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      # Paso A: Clonar tu código en este servidor virtual
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      # Paso B: Instalar Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Paso C: Instalar tus paquetes (Express, Sequelize, Playwright)
+      - name: Instalar dependencias (NPM)
+        run: npm install
+
+      # Paso D: El secreto de Playwright. Necesita descargar Chromium (el motor de Chrome)
+      - name: Instalar navegador Chromium para Playwright
+        run: npx playwright install chromium --with-deps
+
+      # Paso E: ¡Lanzar tu minero!
+      - name: Ejecutar Extracción y Guardado ETL
+        # Aquí le inyectamos la variable secreta que configuraste en el Paso 1
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: node src/jobs/dataMiner.js
