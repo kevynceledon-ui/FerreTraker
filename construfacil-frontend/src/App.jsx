@@ -23,7 +23,8 @@ function App(){
     const obtenerDatos = async () =>{
       try{
         //Pedimos los datos del backend, axios espera a que el servidor de node.js responda
-        const respuesta = await axios.get ("http://localhost:3000/api/productos");
+        
+        const respuesta = await axios.get(import.meta.env.VITE_API_URL);
 
         //Cuando llegan los datos ,los metemos en nuestra variable de estado "productos"
         setProductos(respuesta.data);
