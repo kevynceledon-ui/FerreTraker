@@ -44,4 +44,4 @@ jobs:
         # Aquí le inyectamos la variable secreta que configuraste en el Paso 1
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: node src/jobs/dataMiner.js
+        run: node $GITHUB_WORKSPACE/backend/src/jobs/dataMiner.js
