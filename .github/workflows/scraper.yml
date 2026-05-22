@@ -41,7 +41,11 @@ jobs:
 
       # Paso E: ¡Lanzar tu minero!
       - name: Ejecutar Extracción y Guardado ETL
-        # Aquí le inyectamos la variable secreta que configuraste en el Paso 1
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: node $GITHUB_WORKSPACE/backend/src/jobs/dataMiner.js
+        run: |
+          echo "--- DIAGNÓSTICO DE RUTA ---"
+          pwd
+          ls -R
+          echo "--- FIN DEL DIAGNÓSTICO ---"
+          node $GITHUB_WORKSPACE/backend/src/jobs/dataMiner.js
