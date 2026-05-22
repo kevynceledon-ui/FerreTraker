@@ -1,4 +1,4 @@
-name: FerreTraker Minero Diario
+name: FerreTracker Minero Diario
 
 on:
   workflow_dispatch: 
@@ -8,6 +8,10 @@ on:
 jobs:
   minar-datos:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      # Silenciamos la advertencia de Node
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Clonar el repositorio
@@ -19,18 +23,31 @@ jobs:
           node-version: '20'
 
       - name: Instalar dependencias
-        # Buscamos el package.json dentro de cualquier carpeta llamada 'backend'
         run: |
-          cd $(find . -name "backend" -type d | head -n 1)
+          # Buscamos la carpeta backend dinámicamente
+          BACKEND_DIR=$(find . -name "backend" -type d | head -n 1)
+          cd $BACKEND_DIR
           npm install
 
-      - name: Instalar Playwright
-        run: npx playwright install chromium --with-deps
+      - name: Instalar Playwright y dependencias de sistema
+        run: |
+          # Esto instala las librerías de Linux necesarias para correr Chrome
+          npx playwright install-deps
+          npx playwright install chromium
 
-      - name: Ejecutar Extracción
+      - name: Instalar dependencias y ejecutar minero
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        # Este comando busca la carpeta backend, entra y ejecuta tu minero
         run: |
-          cd $(find . -name "backend" -type d | head -n 1)
-          node src/jobs/dataMiner.js
+          # Encontramos la carpeta backend
+          BACKEND_PATH=$(find . -name "backend" -type d | head -n 1)
+          
+          # npm --prefix busca el package.json en esa carpeta, sin necesidad de 'cd'
+          npm install --prefix $BACKEND_PATH
+          
+          # Playwright necesita saber dónde instalar las cosas
+          npx playwright install-deps
+          npx playwright install chromium
+          
+          # Ejecutamos apuntando a la ruta absoluta
+          node $BACKEND_PATH/src/jobs/dataMiner.js
