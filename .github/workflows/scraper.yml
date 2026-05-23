@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
     
     steps:
       - name: Clonar el repositorio
@@ -26,6 +27,17 @@ jobs:
           cd construfacil-backend
           pwd  # Para depuración - mostrar directorio actual
           ls -la  # Para depuración - listar contenido
+          
+          # Verificar variables de entorno (solo mostrar primeros y últimos caracteres por seguridad)
+          echo "DIRECT_URL está configurada: $${{ secrets.DIRECT_URL != '' }}"
+          if [ -n "$DIRECT_URL" ]; then
+            echo "DIRECT_URL longitud: ${#DIRECT_URL}"
+            echo "DIRECT_URL comienza con: ${DIRECT_URL:0:3}..."
+            echo "DIRECT_URL termina con: ...${DIRECT_URL: -3}"
+          else
+            echo "DIRECT_URL está vacía o no está configurada"
+          fi
+          
           npm install
           npx playwright install-deps
           npx playwright install chromium
