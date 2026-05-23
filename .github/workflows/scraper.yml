@@ -3,7 +3,7 @@ name: FerreTracker Minero Diario
 on:
   workflow_dispatch: 
   schedule:
-    - cron: '0 7 * * *' 
+    - cron: '0 4 * * *' 
 
 jobs:
   minar-datos:
@@ -21,10 +21,11 @@ jobs:
           node-version: '20'
 
       - name: Instalar y Ejecutar (Todo en backend)
-        # ESTA ES LA MAGIA: Le dice a GitHub que asuma que la terminal 
-        # está abierta directamente dentro de la carpeta backend
-        working-directory: ./construfacil-backend
+        # Cambiar explícitamente al directorio backend para evitar problemas de path
         run: |
+          cd construfacil-backend
+          pwd  # Para depuración - mostrar directorio actual
+          ls -la  # Para depuración - listar contenido
           npm install
           npx playwright install-deps
           npx playwright install chromium
