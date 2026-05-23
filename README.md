@@ -1,5 +1,8 @@
 # FerreTraker - Sistema de Monitoreo de Precios de Materiales de Construcción
 
+# 🚀 Demo en Vivo
+ Ver FerreTracker en acción (https://ferre-traker.vercel.app)
+
 ## 📋 Visión General
 
 FerreTraker es un proyecto personal de aprendizaje diseñado para monitorear y comparar precios de materiales de construcción en tiendas como Sodimac, Easy e Imperial. El sistema automatiza la extracción de datos mediante web scraping, los almacena en una base de datos y proporciona una interfaz para visualizar tendencias de precios.
