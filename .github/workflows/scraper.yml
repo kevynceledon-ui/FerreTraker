@@ -25,19 +25,6 @@ jobs:
         # Cambiar explícitamente al directorio backend para evitar problemas de path
         run: |
           cd construfacil-backend
-          pwd  # Para depuración - mostrar directorio actual
-          ls -la  # Para depuración - listar contenido
-          
-          # Verificar variables de entorno (solo mostrar primeros y últimos caracteres por seguridad)
-          echo "DIRECT_URL está configurada: $${{ secrets.DIRECT_URL != '' }}"
-          if [ -n "$DIRECT_URL" ]; then
-            echo "DIRECT_URL longitud: ${#DIRECT_URL}"
-            echo "DIRECT_URL comienza con: ${DIRECT_URL:0:3}..."
-            echo "DIRECT_URL termina con: ...${DIRECT_URL: -3}"
-          else
-            echo "DIRECT_URL está vacía o no está configurada"
-          fi
-          
           npm install
           npx playwright install-deps
           npx playwright install chromium
