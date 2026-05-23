@@ -24,7 +24,7 @@ jobs:
       - name: Instalar y Ejecutar (Todo en backend)
         # Cambiar explícitamente al directorio backend para evitar problemas de path
         run: |
-          cd construfacil-backend
+          cd ferretraker-backend
           npm install
           npx playwright install-deps
           npx playwright install chromium

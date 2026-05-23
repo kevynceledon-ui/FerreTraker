@@ -47,7 +47,7 @@ function App(){
       
       {/* Títulos estáticos */}
       <div className="header">
-        <h1>FerreTracker</h1>
+        <h1>FerreTraker</h1>
         <p>Cotizador de materiales de construcción en tiempo real</p>
       </div>
 
