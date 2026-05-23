@@ -14,7 +14,7 @@ import { promises } from "dns";
 
 async function iniciarMineria(){
     const categorias = ["madera dimensionada", "melamina", "taladro"];
-    const browser = await chromium.launch({headless: false });
+    const browser = await chromium.launch({headless: true });
 
 //Aquí se guardara e catalogo final combinando todas las categorias
     let catalogoTotal = [];
